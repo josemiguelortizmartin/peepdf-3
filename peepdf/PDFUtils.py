@@ -31,8 +31,11 @@ import json
 from pathlib import Path
 from datetime import datetime as dt
 import requests
-from lxml import etree
-
+ENABLED_XML = True
+try:
+    from lxml import etree
+except ImportError:
+    ENABLED_XML = False
 
 try:
     from peepdf.PDFVulns import vulnsDict, vulnsVersion
@@ -467,6 +470,9 @@ def vtcheck(md5: str, vtKey: str):
 
 
 def getPeepXML(statsDict, VERSION):
+
+    if not ENABLED_XML:
+        raise RuntimeError("Xml is disabled because 'from lxml import etree' failed")
     root = etree.Element(
         "peepdf_analysis",
         version=f"{VERSION}",
