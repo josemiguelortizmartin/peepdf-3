@@ -24,7 +24,13 @@
 """
 
 import os, re, html.entities, json, requests
-from lxml import etree
+ENABLED_XML = True
+try:
+    from lxml import etree
+except ImportError:
+    print("[!] Error: lxml library is not installed. XML output will be disabled")
+    ENABLED_XML = False
+
 from datetime import datetime as dt
 
 try:
@@ -461,6 +467,9 @@ def vtcheck(md5, vtKey):
     return (0, jsonResponse)
 
 def getPeepXML(statsDict, VERSION):
+    if not ENABLED_XML:
+        raise RuntimeError("[!] Error: lxml library is not installed. XML output is disabled")
+
     root = etree.Element(
         "peepdf_analysis",
         version=f"{VERSION}",
