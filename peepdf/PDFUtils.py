@@ -468,7 +468,8 @@ def vtcheck(md5, vtKey):
 
 def getPeepXML(statsDict, VERSION):
     if not ENABLED_XML:
-        raise RuntimeError("[!] Error: lxml library is not installed. XML output is disabled")
+        print("[!] Error: lxml library is not installed. XML output is disabled")
+        return ""
 
     root = etree.Element(
         "peepdf_analysis",
